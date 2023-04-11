@@ -12,6 +12,7 @@ my_reg_exp = str()
 
 @bot.message_handler(commands=['start', 'in_home'])
 def start(message):
+    print(message)
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     btn1 = types.KeyboardButton('Добавить товар')
     btn2 = types.KeyboardButton('Показать список моих товаров')
@@ -75,12 +76,12 @@ def delete(message):
 @bot.message_handler(func=func_delete_all)
 def delete_all(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-    btn1 = types.KeyboardButton('/in_home')
-    markup.add(btn1)
-    if databases.utils.CRUD.delete_all_data(message.from_user.id):
-        bot.send_message(message.chat.id, 'Список очищен', reply_markup=markup)
-    else:
-        bot.send_message(message.chat.id, 'Товаров в списке нет', reply_markup=markup)
+    btn1 = types.KeyboardButton('Да')
+    btn2 = types.KeyboardButton('Нет')
+    markup.add(btn1, btn2)
+    sent = bot.send_message(message.chat.id, 'Вы уверены?', reply_markup=markup)
+    bot.register_next_step_handler(sent, delete_all_orders)
+
 
 
 def add_url(message):
@@ -130,6 +131,20 @@ def delete_order(message):
                 printed_info = f'Список пуст'
                 bot.send_message(message.chat.id, printed_info)
 
+def delete_all_orders(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    btn1 = types.KeyboardButton('/in_home')
+    markup.add(btn1)
+    if message.text == 'Да':
+        if databases.utils.CRUD.delete_all_data(message.from_user.id):
+            bot.send_message(message.chat.id, 'Список очищен', reply_markup=markup)
+        else:
+            bot.send_message(message.chat.id, 'Товаров в списке нет', reply_markup=markup)
+    else:
+        bot.send_message(message.chat.id, 'Товары не удалены', reply_markup=markup)
+
+
+
 
 
 @bot.message_handler()
@@ -146,7 +161,7 @@ def create_message(users_id, order_brand, order_name, order_id, old_price, new_p
 
 def create_message_error():
     printed_info = f'Ошибка в боте, выключаюсь!'
-    bot.send_message('1604211187', printed_info)
+    bot.send_message(os.getenv('admin_id'), printed_info)
 
 if __name__=="__main__":
     start()
