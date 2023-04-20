@@ -54,7 +54,7 @@ def all_orders(this_user_id: str) -> dict:
     data = dict()
     for i_order in orders:
         buffer = Orders.get(id=i_order)
-        data[buffer.id] = (buffer.order_brand, buffer.order_name, buffer.order_id, buffer.price)
+        data[buffer.id] = (buffer.order_brand, buffer.order_name, buffer.order_id, buffer.price, buffer.original_url)
     return data
 
 if __name__=="__main__":
