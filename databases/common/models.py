@@ -1,11 +1,12 @@
 from peewee import *
 
-
 db = SqliteDatabase('data.db')
+
 
 class BaseModel(Model):
     class Meta:
         database = db
+
 
 class Orders(BaseModel):
     class Meta:
@@ -19,9 +20,8 @@ class Orders(BaseModel):
     url = TextField()
     original_url = TextField()
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
     db.create_tables([Orders])
 else:
     print(f'Импортируется {__name__}')
-
-

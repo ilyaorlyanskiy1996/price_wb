@@ -5,6 +5,7 @@ from telebot import types
 
 bot = TG_api.core.bot
 
+
 def add_url(message):
     if message.text == '/in_home':
         TG_api.Common_part.common.start(message)
@@ -14,7 +15,8 @@ def add_url(message):
             site_api.utils.site_api_handler.search_json(url)
             data = site_api.utils.site_api_handler.take_data(url)
             original_url = message.text.split('\n')[-1]
-            if databases.utils.CRUD.store_data(message.from_user.id, data[0], data[1], data[2], data[3], data[4], original_url):
+            if databases.utils.CRUD.store_data(message.from_user.id, data[0], data[1], data[2], data[3], data[4],
+                                               original_url):
                 send = bot.send_message(message.chat.id, 'Товар добавлен')
                 bot.register_next_step_handler(send, add_url)
             else:
@@ -52,6 +54,7 @@ def delete_order(message):
                 printed_info = f'Список пуст'
                 bot.send_message(message.chat.id, printed_info)
 
+
 def delete_all_orders(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     btn1 = types.KeyboardButton('/in_home')
@@ -63,4 +66,3 @@ def delete_all_orders(message):
             bot.send_message(message.chat.id, 'Товаров в списке нет', reply_markup=markup)
     else:
         bot.send_message(message.chat.id, 'Товары не удалены', reply_markup=markup)
-

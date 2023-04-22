@@ -18,12 +18,14 @@ def start(message):
     mess = f'Привет, {message.from_user.first_name}, введите команду'
     bot.send_message(message.chat.id, mess, reply_markup=markup)
 
+
 @bot.message_handler()
 def incorrecte_mess(message):
     printed_info = f'Некорректный ввод'
     bot.send_message(message.chat.id, printed_info)
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
     print(f'Запущено {__name__}')
 else:
     print(f'Импортируется {__name__}')

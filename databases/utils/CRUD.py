@@ -1,7 +1,8 @@
 from databases.common.models import *
 
 
-def store_data(user_id: str, order_brand: str, order_name: str, order_id: str, price: str, url: str, original_url: str) -> bool:
+def store_data(user_id: str, order_brand: str, order_name: str, order_id: str, price: str, url: str,
+               original_url: str) -> bool:
     """
         Функция для сохранения выбранного товара. Если в базе такого товара нет (у определенного пользователя), то добавляем в БД и возвращвем True.
         Если пользователем товар уже был добавлен, то выводим False.
@@ -10,17 +11,18 @@ def store_data(user_id: str, order_brand: str, order_name: str, order_id: str, p
     set_user = set(x for x in Orders.select().where(Orders.user_id == user_id))
     if not (set_order & set_user):
         Orders.create(
-            user_id = user_id,
-            order_name = order_name,
-            order_id = order_id,
-            price = price,
-            order_brand = order_brand,
-            url = url,
-            original_url = original_url
+            user_id=user_id,
+            order_name=order_name,
+            order_id=order_id,
+            price=price,
+            order_brand=order_brand,
+            url=url,
+            original_url=original_url
         ).save()
         return True
     else:
         return False
+
 
 def delete_data(id_order: int, this_user_id: str):
     """
@@ -31,6 +33,7 @@ def delete_data(id_order: int, this_user_id: str):
         deleted_position.delete_instance()
     else:
         raise Exception
+
 
 def delete_all_data(this_user_id: str) -> bool:
     """
@@ -57,7 +60,8 @@ def all_orders(this_user_id: str) -> dict:
         data[buffer.id] = (buffer.order_brand, buffer.order_name, buffer.order_id, buffer.price, buffer.original_url)
     return data
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
     store_data()
     delete_data()
     delete_all_data()

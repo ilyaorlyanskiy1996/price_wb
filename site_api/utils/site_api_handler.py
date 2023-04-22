@@ -1,7 +1,8 @@
 import requests
 import json
 
-def take_url(in_data:str) -> str:
+
+def take_url(in_data: str) -> str:
     """
         Функция возвращающая URL для запроса JSON файла.
     """
@@ -9,7 +10,8 @@ def take_url(in_data:str) -> str:
     url = f'https://card.wb.ru/cards/detail?&nm={id}'
     return url
 
-def search_json(url:str):
+
+def search_json(url: str):
     """
         Функция запрашивает JSON файл и записывает его в файл.
     """
@@ -18,10 +20,10 @@ def search_json(url:str):
     data = response.json()
     with open('wb_catalogs_data.json', 'w', encoding='UTF-8') as file:
         json.dump(data, file, indent=2, ensure_ascii=False)
-        #print(f'Данные сохранены в wb_catalogs_data.json')
+        # print(f'Данные сохранены в wb_catalogs_data.json')
 
 
-def take_data(url:str) -> (str, str, str, int, str):
+def take_data(url: str) -> (str, str, str, int, str):
     """
         Функция вытаскивающая из JSON файла необходимые нам данные.
         :return = брэнд, наименование, артикул, цена и URL для дальнейших запросов.
@@ -36,10 +38,10 @@ def take_data(url:str) -> (str, str, str, int, str):
         data_url = url
         return data_brand, data_name, data_id, data_price, data_url
 
-if __name__=="main":
+
+if __name__ == "main":
     take_url()
     search_json()
     take_data()
 else:
     print(f'Импортируется {__name__}')
-
