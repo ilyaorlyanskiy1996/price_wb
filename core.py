@@ -48,11 +48,11 @@ def schedule_loop():
     """
     try:
         while True:
-            print("Замедление на 5 часов...")
-            # time.sleep(5*60*60)
             orders = [x for x in databases.common.models.Orders.select()]
             for i_order in orders:
                 check_order(i_order)
+            print("Замедление на 5 часов...")
+            time.sleep(5*60*60)
     except Exception as exc:
         print(str(exc))
         TG_api.Admin_part.Admin.create_message_exeption(exc)

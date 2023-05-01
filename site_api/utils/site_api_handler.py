@@ -17,6 +17,9 @@ def search_json(url: str):
     """
     headers = {'Accept': "*/*", 'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
     response = requests.get(url, headers=headers)
+    # opener = AppURLopener()
+    # response = opener.open(url)
+
     data = response.json()
     with open('wb_catalogs_data.json', 'w', encoding='UTF-8') as file:
         json.dump(data, file, indent=2, ensure_ascii=False)
